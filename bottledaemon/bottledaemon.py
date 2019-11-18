@@ -25,7 +25,7 @@ def __locked_pidfile(filename):
     lock.release()
 
 
-def daemon_run(host="localhost", port="8080", pidfile=None, logfile=None):
+def daemon_run(host="localhost", port="8080", pidfile=None, logfile=None, quiet=False):
     """
     Get the bottle 'run' function running in the background as a daemonized
     process. 
@@ -35,6 +35,7 @@ def daemon_run(host="localhost", port="8080", pidfile=None, logfile=None):
     :port: The host port to listen on. Defaults to 8080.
     :pidfile: The file to use as the process id file. Defaults to "bottle.pid"
     :logfile: The file to log stdout and stderr from bottle to. Defaults to "bottle.log"
+    :quiet: Suppress output to stdout and stderr? Defaults to False.
 
     """
     parser = argparse.ArgumentParser()
@@ -62,7 +63,7 @@ def daemon_run(host="localhost", port="8080", pidfile=None, logfile=None):
         )
         
         with context:
-            bottle.run(host=host, port=port)
+            bottle.run(host=host, port=port, quiet=quiet)
     else:
         with open(pidfile,"r") as p:
             pid = int(p.read())
